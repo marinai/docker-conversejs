@@ -9,7 +9,10 @@ RUN git clone https://github.com/conversejs/converse.js.git /tmp/converse.js && 
 
 FROM nginx:1.17
 
-COPY --from=builder /tmp/converse.js/dist/* /var/www/
+COPY --from=builder /tmp/converse.js/dist/ /var/www/
+COPY --from=builder /tmp/converse.js/sounds/ /var/www/sounds/
+# workaround for release 6.0.1
+COPY --from=builder /tmp/converse.js/sass/webfonts/ /var/www/webfonts/
 COPY index.default.html /var/www/
 
 RUN rm /etc/nginx/conf.d/*.conf
@@ -18,4 +21,4 @@ EXPOSE 8080
 
 COPY entrypoint.sh /usr/local/sbin/entrypoint.sh
 ENTRYPOINT ["/usr/local/sbin/entrypoint.sh"]
-CMD ["nginx"]
+CMD ["nginx", "-g", "daemon off;"]
