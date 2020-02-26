@@ -12,6 +12,10 @@ else
     if [ ! -z "$WEBSOCKET_URL" ]; then
         sed -i "s#websocket_url: undefined#websocket_url: '$WEBSOCKET_URL'#" /var/www/index.html
     fi
+
+    if [ ! -z "$BOSH_SERVICE_URL" ]; then
+        sed -i "s#bosh_service_url: undefined#bosh_service_url: '$BOSH_SERVICE_URL'#" /var/www/index.html
+    fi
 fi
 
 echo "Running $@ ..."
